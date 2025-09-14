@@ -1,153 +1,372 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" class="scroll-smooth" data-theme="light">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ACSC Futsal</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ACSC Futsal - Le Futur du Futsal</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
   <style>
-   .hero {
-  background: url('https://img.freepik.com/vecteurs-libre/fond-football-degrade-dynamique_23-2149007789.jpg?semt=ais_hybrid&w=740') no-repeat center center;
-  background-size: cover;
-  height: 60vh; /* Hauteur = 60% de la hauteur de la fenêtre */
-  min-height: 300px; /* minimum 300px pour petits écrans */
-}
+    /* Police personnalisée */
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f9fafb;
+      transition: background-color 0.5s, color 0.5s;
+    }
 
+    /* Hero background with overlay gradient */
+    .hero {
+      background: linear-gradient(
+          rgba(0, 0, 0, 0.5),
+          rgba(0, 0, 0, 0.5)
+        ),
+        url('https://img.freepik.com/vecteurs-libre/fond-football-degrade-dynamique_23-2149007789.jpg?semt=ais_hybrid&w=740')
+          no-repeat center center / cover;
+      height: 70vh;
+      min-height: 350px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      text-align: center;
+      padding: 0 1rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Animation fadeInUp */
+    @keyframes fadeInUp {
+      0% {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .fade-in-up {
+      animation: fadeInUp 1s ease forwards;
+    }
+
+    /* Navbar shadow on scroll */
+    header.scrolled {
+      box-shadow: 0 4px 12px rgb(0 0 0 / 0.1);
+      background-color: #ffffffcc;
+      backdrop-filter: saturate(180%) blur(20px);
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    /* Transition opacity for images */
+    .opacity-0 {
+      opacity: 0;
+      transition: opacity 1s ease-out;
+    }
+    .opacity-100 {
+      opacity: 1;
+    }
+
+    /* Mode sombre */
+    @media (prefers-color-scheme: dark) {
+      body {
+        background: #121212;
+        color: #e0e0e0;
+      }
+      header {
+        background-color: #1f2937;
+      }
+      section#club, section#actualites {
+        background-color: #1f2937;
+      }
+      section#contact {
+        background-color: #111827;
+      }
+      footer {
+        background-color: #111827;
+      }
+      a:hover {
+        color: #3b82f6;
+      }
+      input, textarea {
+        background-color: #374151;
+        color: #e0e0e0;
+        border-color: #4b5563;
+      }
+    }
+
+    /* Hamburger menu styles */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      width: 24px;
+      height: 18px;
+      justify-content: space-between;
+    }
+    .hamburger span {
+      height: 3px;
+      background: #1f2937;
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+    .hamburger.active span:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+    .hamburger.active span:nth-child(2) {
+      opacity: 0;
+    }
+    .hamburger.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(5px, -5px);
+    }
+
+    /* Responsive nav */
+    @media (max-width: 768px) {
+      nav {
+        position: fixed;
+        top: 64px;
+        right: 0;
+        background: white;
+        width: 200px;
+        height: calc(100vh - 64px);
+        transform: translateX(100%);
+        transition: transform 0.3s ease;
+        box-shadow: -2px 0 8px rgb(0 0 0 / 0.1);
+        padding-top: 1rem;
+        z-index: 50;
+      }
+      nav.open {
+        transform: translateX(0);
+      }
+      nav a {
+        display: block;
+        padding: 1rem 1.5rem;
+        border-bottom: 1px solid #e5e7eb;
+        color: #1f2937;
+      }
+      nav a:hover {
+        background-color: #3b82f6;
+        color: white;
+      }
+      .hamburger {
+        display: flex;
+      }
+    }
+
+    /* Smooth scroll behavior for anchor links */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* Card hover effect */
+    .card {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+    }
+    .card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 10px 20px rgb(59 130 246 / 0.3);
+    }
+
+    /* Button gradient */
+    .btn-gradient {
+      background: linear-gradient(90deg, #3b82f6 0%, #2563eb 100%);
+      color: white;
+      font-weight: 600;
+      transition: background 0.3s ease;
+    }
+    .btn-gradient:hover {
+      background: linear-gradient(90deg, #2563eb 0%, #3b82f6 100%);
     }
   </style>
 </head>
 <body class="text-gray-800">
+
   <!-- Navbar -->
-  <header class="bg-white shadow">
+  <header class="fixed w-full bg-white z-50 transition-shadow duration-300">
     <div class="container mx-auto px-4 py-4 flex justify-between items-center">
-      <h1 class="text-2xl font-bold">ACSC Futsal</h1>
-      <nav class="space-x-6">
-        <a href="#accueil" class="hover:text-blue-600">Accueil</a>
-        <a href="#club" class="hover:text-blue-600">Le Club</a>
-        <a href="#actualites" class="hover:text-blue-600">Actualités</a>
-        <a href="#contact" class="hover:text-blue-600">Contact</a>
+      <h1 class="text-2xl font-bold text-blue-700 select-none">ACSC Futsal</h1>
+      <nav id="nav-menu" class="space-x-6 hidden md:flex" aria-label="Menu principal">
+        <a href="#accueil" class="hover:text-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded">Accueil</a>
+        <a href="#club" class="hover:text-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded">Le Club</a>
+        <a href="#actualites" class="hover:text-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded">Actualités</a>
+        <a href="#contact" class="hover:text-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded">Contact</a>
       </nav>
+      <button aria-label="Ouvrir le menu" id="hamburger" class="hamburger md:hidden" aria-expanded="false" aria-controls="nav-menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
     </div>
   </header>
 
   <!-- Hero Section -->
-  <section id="accueil" class="hero h-screen flex items-center justify-center text-white">
-    <div class="bg-black bg-opacity-60 p-10 rounded-xl text-center">
-      <h2 class="text-4xl md:text-6xl font-bold mb-4">Bienvenue à l'ACSC Futsal</h2>
-      <p class="text-lg">L'Association Culturelle et Sportive de Chantereine</p>
+  <section id="accueil" class="hero">
+    <div class="max-w-4xl mx-auto px-4 fade-in-up">
+      <h2 class="text-5xl md:text-7xl font-extrabold mb-4 drop-shadow-lg">Bienvenue à l'ACSC Futsal</h2>
+      <p class="text-xl md:text-2xl font-medium drop-shadow-md">L'Association Culturelle et Sportive de Chantereine</p>
     </div>
   </section>
 
   <!-- Le Club -->
-  <section id="club" class="py-16 bg-gray-100">
-    <div class="container mx-auto px-4">
-      <h2 class="text-3xl font-bold mb-6 text-center">Le Club</h2>
-      <p class="text-center max-w-3xl mx-auto">L'ACSC est un club de futsal dynamique et inclusif, ouvert à tous les passionnés de football en salle. Notre objectif est de promouvoir le sport, l'esprit d'équipe et les valeurs du fair-play dans un environnement convivial et respectueux.</p>
+  <section id="club" class="py-20 bg-gray-50 dark:bg-gray-900 transition-colors duration-500">
+    <div class="container mx-auto px-4 max-w-4xl">
+      <h2 class="text-4xl font-bold mb-8 text-center text-blue-700 dark:text-blue-400">Le Club</h2>
+      <p class="text-center text-lg leading-relaxed text-gray-700 dark:text-gray-300">
+        L'ACSC est un club de futsal dynamique et inclusif, ouvert à tous les passionnés de football en salle. Notre objectif est de promouvoir le sport, l'esprit d'équipe et les valeurs du fair-play dans un environnement convivial et respectueux.
+      </p>
     </div>
   </section>
 
-<!-- Actualités -->
-<section id="actualites" class="py-16 bg-gray-100">
-  <div class="container mx-auto px-4">
-    <h2 class="text-3xl font-bold mb-6 text-center">Actualités</h2>
-    <div class="grid md:grid-cols-3 gap-6">
-      
-      <div class="bg-white shadow rounded p-4">
-        <h3 class="text-xl font-semibold mb-2">Tournoi local 2025</h3>
-        <p>Le club organise un tournoi ouvert aux jeunes le 15 juin 2025. Inscriptions ouvertes !</p>
-      </div>
+  <!-- Actualités -->
+  <section id="actualites" class="py-20 bg-gray-100 dark:bg-gray-800 transition-colors duration-500">
+    <div class="container mx-auto px-4 max-w-6xl">
+      <h2 class="text-4xl font-bold mb-12 text-center text-blue-700 dark:text-blue-400">Actualités</h2>
+      <div class="grid md:grid-cols-3 gap-8">
+        <article class="card bg-white dark:bg-gray-700 rounded-lg shadow p-6">
+          <h3 class="text-2xl font-semibold mb-3 text-blue-600 dark:text-blue-300">Tournoi local 2025</h3>
+          <p>Le club organise un tournoi ouvert aux jeunes le <time datetime="2025-09-20">22025</time>. Inscriptions ouvertes !</p>
+          <img 
+            src="images/Tournoi.png" 
+			alt="Tournoi 2025" 
+			class="rounded-lg shadow-md w-full max-w-md opacity-0 transition-opacity duration-1000 ease-out fade-image"
+          >
+        </article>
 
-      <div class="bg-white shadow rounded p-4">
-        <h3 class="text-xl font-semibold mb-2">Reprise des entraînements</h3>
-        <p>Les entraînements reprennent tous les mercredis à 18h au gymnase Maurice Baquet.</p>
-      </div>
+        <article class="card bg-white dark:bg-gray-700 rounded-lg shadow p-6">
+          <h3 class="text-2xl font-semibold mb-3 text-blue-600 dark:text-blue-300">Reprise des entraînements</h3>
+          <p>Les entraînements reprennent tous les mercredis à 18h au gymnase Maurice Baquet.</p>
+          <img 
+            src="images/MauriceBaquet.jpeg" 
+			alt="Gymnase Maurice Baquet" 
+			class="rounded-lg shadow-md w-full max-w-md opacity-0 transition-opacity duration-1000 ease-out fade-image"
+          >
+        </article>
 
-      <!-- Actualité 3 avec image animée -->
-      <div class="bg-white shadow rounded p-4">
-        <h3 class="text-xl font-semibold mb-2">Nouveaux maillots</h3>
-        <p>Nos équipes porteront de nouveaux maillots pour la saison 2025/2026. Design moderne et confortable !</p>
-        <img 
-          src="images/maillot-ACSC.png" 
-          alt="Maillot ACSC Futsal 2025/2026" 
-          id="maillot-image"
-          class="mt-4 rounded-lg shadow-md w-full max-w-md mx-auto opacity-0 transition-opacity duration-1000 ease-out"
-        >
+        <article class="card bg-white dark:bg-gray-700 rounded-lg shadow p-6 flex flex-col items-center">
+          <h3 class="text-2xl font-semibold mb-3 text-blue-600 dark:text-blue-300">Nouveaux maillots</h3>
+          <p class="mb-4 text-center">Nos équipes porteront de nouveaux maillots pour la saison 2025/2026. Design moderne et confortable !</p>
+          <img 
+            src="images/maillot-ACSC.png" 
+            alt="Maillot ACSC Futsal 2025/2026" 
+            class="rounded-lg shadow-md w-full max-w-md opacity-0 transition-opacity duration-1000 ease-out fade-image"
+          >
+        </article>
       </div>
-
     </div>
-  </div>
-</section>
+  </section>
 
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    const img = document.getElementById('maillot-image');
-
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          img.classList.remove('opacity-0');
-          img.classList.add('opacity-100');
-          observer.unobserve(img);
-        }
-      });
-    }, {
-      threshold: 0.1
-    });
-
-    observer.observe(img);
-  });
-</script>
-
+  <!-- Calendrier des événements -->
+  <section id="evenements" class="py-20 bg-white dark:bg-gray-900 transition-colors duration-500">
+    <div class="container mx-auto px-4 max-w-4xl">
+      <h2 class="text-4xl font-bold mb-12 text-center text-blue-700 dark:text-blue-400">Calendrier des événements</h2>
+      <ul class="space-y-6 text-gray-700 dark:text-gray-300">
+        <li class="flex items-center space-x-4">
+          <time datetime="2025-06-15" class="text-blue-600 font-semibold min-w-[100px]">15 Juin 2025</time>
+          <span>Tournoi local ouvert aux jeunes</span>
+        </li>
+        <li class="flex items-center space-x-4">
+          <time datetime="2025-09-01" class="text-blue-600 font-semibold min-w-[100px]">1 Septembre 2025</time>
+          <span>Début de la saison 2025/2026</span>
+        </li>
+        <li class="flex items-center space-x-4">
+          <time datetime="2025-10-10" class="text-blue-600 font-semibold min-w-[100px]">10 Octobre 2025</time>
+          <span>Assemblée générale annuelle</span>
+        </li>
+      </ul>
+    </div>
+  </section>
 
   <!-- Contact -->
-<!-- Contact -->
-<section id="contact" class="py-16 bg-blue-50">
-  <div class="container mx-auto px-4">
-    <h2 class="text-3xl font-bold mb-6 text-center">Contact</h2>
-    
-    <form
-      action="https://formspree.io/f/manjjnjp"
-      method="POST"
-      class="max-w-xl mx-auto space-y-6 bg-white p-6 rounded-lg shadow"
-    >
-      <div>
-        <label class="block mb-2 text-gray-700 font-semibold">Votre email :</label>
-        <input
-          type="email"
-          name="email"
-          required
-          placeholder="votre@email.com"
-          class="w-full p-3 border border-gray-300 rounded"
-        >
-      </div>
+  <section id="contact" class="py-20 bg-blue-50 dark:bg-gray-800 transition-colors duration-500">
+    <div class="container mx-auto px-4 max-w-xl">
+      <h2 class="text-4xl font-bold mb-8 text-center text-blue-700 dark:text-blue-400">Contact</h2>
+      <form
+        action="https://formspree.io/f/manjjnjp"
+        method="POST"
+        class="space-y-8 bg-white dark:bg-gray-700 p-8 rounded-lg shadow"
+        aria-label="Formulaire de contact"
+      >
+        <div>
+          <label for="email" class="block mb-2 text-gray-700 dark:text-gray-300 font-semibold">Votre email :</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            required
+            placeholder="votre@email.com"
+            class="w-full p-3 border border-gray-300 dark:border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-600 dark:text-white"
+          />
+        </div>
 
-      <div>
-        <label class="block mb-2 text-gray-700 font-semibold">Votre message :</label>
-        <textarea
-          name="message"
-          required
-          placeholder="Écrivez votre message ici..."
-          class="w-full p-3 border border-gray-300 rounded h-32 resize-none"
-        ></textarea>
-      </div>
+        <div>
+          <label for="message" class="block mb-2 text-gray-700 dark:text-gray-300 font-semibold">Votre message :</label>
+          <textarea
+            id="message"
+            name="message"
+            required
+            placeholder="Écrivez votre message ici..."
+            class="w-full p-3 border border-gray-300 dark:border-gray-600 rounded h-32 resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-600 dark:text-white"
+          ></textarea>
+        </div>
 
-      <!-- Anti-spam invisible -->
-      <input type="text" name="_gotcha" style="display:none">
+        <!-- Anti-spam invisible -->
+        <input type="text" name="_gotcha" style="display:none" aria-hidden="true" />
 
-      <div class="text-center">
-        <button
-          type="submit"
-          class="bg-blue-600 text-white px-6 py-3 rounded hover:bg-blue-700 transition duration-300"
-        >
-          Envoyer
-        </button>
-      </div>
-    </form>
-  </div>
-</section>
+        <div class="text-center">
+          <button
+            type="submit"
+            class="btn-gradient px-8 py-3 rounded shadow-lg hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-blue-400"
+          >
+            Envoyer
+          </button>
+        </div>
+      </form>
+    </div>
+  </section>
 
-<!-- Footer -->
-<footer class="bg-gray-800 text-white py-4 text-center">
-  <p>&copy; 2025 ACSC Futsal. Tous droits réservés.</p>
-</footer>
+  <!-- Footer -->
+  <footer class="bg-gray-800 dark:bg-gray-900 text-white py-6 text-center select-none">
+    <p>&copy; 2025 ACSC Futsal. Tous droits réservés.</p>
+  </footer>
 
+  <script>
+    // Navbar shadow on scroll
+    const header = document.querySelector('header');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 10) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    });
+
+    // Hamburger menu toggle
+    const hamburger = document.getElementById('hamburger');
+    const navMenu = document.getElementById('nav-menu');
+    hamburger.addEventListener('click', () => {
+      const expanded = hamburger.getAttribute('aria-expanded') === 'true' || false;
+      hamburger.setAttribute('aria-expanded', !expanded);
+      hamburger.classList.toggle('active');
+      navMenu.classList.toggle('open');
+    });
+
+    // Intersection Observer for image fade-in
+	document.addEventListener('DOMContentLoaded', () => {
+	  const images = document.querySelectorAll('.fade-image');
+	  const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.remove('opacity-0');
+            entry.target.classList.add('opacity-100');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1 });
+
+      images.forEach(img => observer.observe(img));
+});
+
+  </script>
+</body>
+</html>
